@@ -17,10 +17,6 @@ This project is a full-stack video lecture tracking system built for the **SDE I
 
 ## 🏗️ System Setup
 
-### 🔧 Prerequisites
-- Node.js (v16+)
-- MongoDB (for persistent storage)
-- Redis (optional, for scale optimization)
 
 ### ⚙️ Installation
 ```bash
