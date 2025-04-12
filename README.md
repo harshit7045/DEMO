@@ -1,3 +1,7 @@
+Here’s the updated README for your Video Progress Tracker project with detailed explanations of the four approaches and additional modifications based on your requests:
+
+---
+
 # 📘 README – Video Progress Tracker for SDE Intern Assignment
 
 ## 📌 Overview
@@ -46,13 +50,13 @@ npm run dev
 This approach logs every play and pause action and stores time intervals.
 
 #### ✅ Pros
-- Highly accurate
-- Can merge overlapping intervals
+- **Highly accurate**: Tracks every viewable segment and ensures precise progress measurement.
+- **Can merge overlapping intervals**: Multiple play intervals can be combined to avoid redundant storage of duplicate segments.
 
 #### ❌ Cons
-- High overhead for merging time intervals
-- Repeated comparisons
-- Many reads/writes to database
+- **High overhead for merging intervals**: Merging intervals can be computationally expensive and lead to increased processing time, especially when dealing with large datasets.
+- **Repeated comparisons**: For each new play, the system must compare the new intervals with previous ones to merge them.
+- **Frequent database writes**: This can lead to performance issues due to constant interaction with the database.
 
 #### 🧪 Example
 ```
@@ -64,45 +68,58 @@ Merged view time = 2s to 15s → 13s total unique view time.
 ---
 
 ### 2⃣ Disjoint Set (Optimized Interval Merging)
-Use graph-style merging of watched intervals using Union-Find (DSU).
+This approach uses a graph-style merging of watched intervals through the **Union-Find** (Disjoint Set Union, DSU) data structure.
 
 #### ✅ Pros
-- Less space overhead
-- Efficient merging
+- **Less space overhead**: The DSU reduces the amount of data stored, as it effectively handles intervals by grouping them.
+- **Efficient merging**: Efficiently merges overlapping intervals without redundant data.
 
 #### ❌ Cons
-- Needs more code
-- Still similar complexity on the backend
-- Not natively supported by frontend events
+- **Complex code**: Implementing the DSU logic can be complicated and requires extra coding effort.
+- **Backend complexity**: The backend logic would need to handle interval merging, which adds more complexity.
+- **Frontend challenges**: Integrating the DSU logic with frontend events, like video plays, could be cumbersome.
+
+Given that the project is intended to be completed within 2 days, this approach is **too cumbersome** to implement in the given timeframe, so we decided to use a simpler approach.
 
 ---
 
-### 3⃣ Goated Approach: WebSocket + Redis (Real-time at Scale)
-A scalable solution for handling large users in real time.
+### 3⃣ WebSocket + Redis (Real-time at Scale)
+A scalable solution for handling large users in real-time using **WebSockets** and **Redis**.
 
 #### 🔧 Implementation Idea:
-- Frontend sends watch info every second using WebSocket.
-- Redis buffers these updates to avoid bombarding the database.
-- Data is flushed in intervals.
+- The frontend sends watch info every second using **WebSocket**.
+- **Redis** buffers these updates to avoid bombarding the database.
+- Data is flushed to the database in intervals to maintain real-time tracking.
 
 #### ✅ Pros
-- Super scalable
-- Great for real-time dashboards
+- **Super scalable**: This approach is highly efficient for large-scale applications and ensures real-time progress tracking.
+- **Real-time dashboards**: Excellent for tracking live progress on user dashboards in real time.
 
 #### ❌ Cons
-- Overkill for an assignment
-- Needs Redis, Socket.io, batching logic
+- **Overkill for this assignment**: The implementation requires a lot of additional setup and is more suited to production-level systems.
+- **Requires Redis and Socket.io**: Adding Redis and WebSockets introduces complexity and is outside the scope of a simple assignment.
+- **Batching logic needed**: Flushing data in intervals requires careful implementation of batching logic.
+
+Due to the complexity and the limited time available, this approach was not feasible for this project.
 
 ---
 
 ### 4⃣ ✅ Final Implemented Approach: Hashing-Based Segment Tracking
-This approach is implemented in this project.
+This is the approach implemented in this project, which divides the video into **fixed-size segments** and uses a **hashing mechanism** to track which segments have been watched.
 
-### 🧹 How It Works:
-- Divide the video into 5-second segments.
+#### 🧹 How It Works:
+- Divide the video into **5-second segments**.
 - Store a binary array `segmentsWatchedArrayHash`.
-- Each index represents a 5s chunk of the video.
-- On crossing a segment boundary, that segment is marked as watched (set to 1).
+- Each index of the array corresponds to a 5-second chunk of the video.
+- When the user crosses a segment boundary, that segment is marked as watched (set to 1).
+
+#### ✅ Pros of Hashing Approach:
+- **Low overhead**: By dividing the video into fixed-size chunks and using a binary array, this approach minimizes memory and storage requirements.
+- **Simple to implement**: Hashing-based segment tracking is straightforward and easy to code, making it ideal for quick development.
+- **Efficient**: The method is computationally efficient, requiring minimal database interaction.
+- **Scalable**: It scales well to handle large video files and long-term tracking without performance degradation.
+- **Accurate**: It tracks user progress at a granular level, ensuring that users can’t cheat by skipping parts of the video.
+- **Real-time updates**: User progress is updated in real-time, enabling accurate tracking even during long sessions.
 
 #### 🧮 Example:
 ```js
@@ -111,8 +128,7 @@ Segment size = 5s
 Total segments = 60 / 5 = 12
 segmentsWatchedArrayHash = [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
 ```
-
-Only segments 3 and 4 (i.e., 15s–25s) have been watched so far.
+In this example, only segments 3 and 4 (15s–25s) have been watched so far.
 
 ---
 
@@ -147,12 +163,6 @@ const getCurrentVideoTime = () => {
 };
 ```
 
-This function triggers every time the video updates. It only sends a new segment update if:
-- The video is currently playing
-- The time crosses a 5s boundary
-
----
-
 ### 🧠 Backend: Segment Update Logic
 ```js
 updateUserViewVideo: async (req, res) => {
@@ -179,16 +189,10 @@ updateUserViewVideo: async (req, res) => {
 }
 ```
 
-This backend function:
-- Receives watched segment(s)
-- Updates segment hash array
-- Updates `lastWatchTime`
-- Saves the user object
-
 ---
 
 ## 📊 UI – Progress Visualization
-- Frontend maps the segment hash into a colored progress bar:
+- The frontend maps the segment hash into a colored progress bar:
 ```js
 {viewedSegments.map((segment, index) => (
   <div 
@@ -199,11 +203,12 @@ This backend function:
 ))}
 ```
 
-- Green bar = watched (1)
-- Red bar = not watched (0)
+- **Green bar** = watched (1)
+- **Red bar** = not watched (0)
 
 ### 📸 Segment Progress Bar Screenshot
-![Segment Progress Bar](https://drive.google.com/uc?export=view&id=1F6ZVsdwuCzrDKqCpa8hrTDVkoOAe6rYX)
+![Segment Progress Bar](https://drive.google.com/uc?export=view&id=1F6ZVsdwuCzrDKqCpa8hrTDVkoOAe6rYX)  
+**Legend**: Green represents watched parts of the video, while red represents unwatched parts.
 
 ---
 
@@ -231,7 +236,8 @@ This backend function:
 
 ---
 
-## 👨‍💼 Author
+## 👨‍💼 Author  
 **Harshit Mishra**  
 [https://harshitmishra.co.in](https://harshitmishra.co.in)
 
+---
