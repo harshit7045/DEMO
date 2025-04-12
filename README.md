@@ -42,7 +42,7 @@ npm run dev
 
 ## 🧠 Approaches Considered
 
-### 1️⃣ Naive Interval-Based Tracking (Basic Idea)
+### 1⃣ Naive Interval-Based Tracking (Basic Idea)
 This approach logs every play and pause action and stores time intervals.
 
 #### ✅ Pros
@@ -63,7 +63,7 @@ Merged view time = 2s to 15s → 13s total unique view time.
 
 ---
 
-### 2️⃣ Disjoint Set (Optimized Interval Merging)
+### 2⃣ Disjoint Set (Optimized Interval Merging)
 Use graph-style merging of watched intervals using Union-Find (DSU).
 
 #### ✅ Pros
@@ -77,7 +77,7 @@ Use graph-style merging of watched intervals using Union-Find (DSU).
 
 ---
 
-### 3️⃣ Goated Approach: WebSocket + Redis (Real-time at Scale)
+### 3⃣ Goated Approach: WebSocket + Redis (Real-time at Scale)
 A scalable solution for handling large users in real time.
 
 #### 🔧 Implementation Idea:
@@ -95,10 +95,10 @@ A scalable solution for handling large users in real time.
 
 ---
 
-### 4️⃣ ✅ Final Implemented Approach: Hashing-Based Segment Tracking
+### 4⃣ ✅ Final Implemented Approach: Hashing-Based Segment Tracking
 This approach is implemented in this project.
 
-### 🧩 How It Works:
+### 🧹 How It Works:
 - Divide the video into 5-second segments.
 - Store a binary array `segmentsWatchedArrayHash`.
 - Each index represents a 5s chunk of the video.
@@ -191,7 +191,7 @@ This backend function:
 - Frontend maps the segment hash into a colored progress bar:
 ```js
 {viewedSegments.map((segment, index) => (
-  <div
+  <div 
     key={index}
     className={`h-full ${segment === 1 ? 'bg-green-500' : 'bg-red-500'}`}
     style={{ width: `${100 / viewedSegments.length}%` }}
@@ -201,6 +201,9 @@ This backend function:
 
 - Green bar = watched (1)
 - Red bar = not watched (0)
+
+### 📸 Segment Progress Bar Screenshot
+![Segment Progress Bar](https://drive.google.com/uc?export=view&id=1F6ZVsdwuCzrDKqCpa8hrTDVkoOAe6rYX)
 
 ---
 
@@ -213,9 +216,22 @@ This backend function:
 
 ---
 
+## ✅ Deliverables Checklist
+- [x] Working frontend + backend
+- [x] Segment hashing logic
+- [x] Resume on login
+- [x] Secure user-specific data
+- [x] README with all design decisions
 
+---
 
-```
+## 🔗 Submission Info
+**Submission Link:** [https://forms.gle/6z9titKchv4TFM2i7](https://forms.gle/6z9titKchv4TFM2i7)  
+**Deadline:** April 13, 2025 – 11:00 PM
 
-This is now saved in the canvas. Let me know if you want to export it as a downloadable file or convert it to PDF format for upload/submission.
+---
+
+## 👨‍💼 Author
+**Harshit Mishra**  
+[https://harshitmishra.co.in](https://harshitmishra.co.in)
 
