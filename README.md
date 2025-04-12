@@ -1,6 +1,4 @@
-Here’s the updated README for your Video Progress Tracker project with detailed explanations of the four approaches and additional modifications based on your requests:
 
----
 
 # 📘 README – Video Progress Tracker for SDE Intern Assignment
 
@@ -221,23 +219,3 @@ updateUserViewVideo: async (req, res) => {
 
 ---
 
-## ✅ Deliverables Checklist
-- [x] Working frontend + backend
-- [x] Segment hashing logic
-- [x] Resume on login
-- [x] Secure user-specific data
-- [x] README with all design decisions
-
----
-
-## 🔗 Submission Info
-**Submission Link:** [https://forms.gle/6z9titKchv4TFM2i7](https://forms.gle/6z9titKchv4TFM2i7)  
-**Deadline:** April 13, 2025 – 11:00 PM
-
----
-
-## 👨‍💼 Author  
-**Harshit Mishra**  
-[https://harshitmishra.co.in](https://harshitmishra.co.in)
-
----
